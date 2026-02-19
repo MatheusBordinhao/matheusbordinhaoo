@@ -1,26 +1,145 @@
 @import "tailwindcss";
 
+/* Tailwind v4 — class-based dark mode */
+@variant dark (&:where(.dark, .dark *));
+
+/* ─── Design tokens ─────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Light theme (default) */
+  --bg-base:      #f8f8f8;
+  --bg-alt:       #f1f1f3;
+  --bg-card:      #ffffff;
+  --bg-footer:    #18181b;
+  --border:       #e4e4e7;
+  --border-sub:   rgba(0,0,0,0.06);
+  --text-base:    #09090b;
+  --text-sub:     #3f3f46;
+  --text-muted:   #71717a;
+  --text-faint:   #a1a1aa;
+  --accent:       #2563eb;
+  --accent-light: #60a5fa;
+  --accent-glow:  rgba(37, 99, 235, 0.25);
+  --input-bg:     rgba(0,0,0,0.04);
+
+  /* Remap light blue shades to higher-contrast values on white backgrounds */
+  --color-blue-300: #1d4ed8;
+  --color-blue-400: #2563eb;
+  --color-blue-500: #1d4ed8;
+}
+
+.dark {
+  /* Dark theme */
+  --bg-base:    #080808;
+  --bg-alt:     #0a0a0a;
+  --bg-card:    #111111;
+  --bg-footer:  #050505;
+  --border:     #1e1e1e;
+  --border-sub: rgba(255,255,255,0.05);
+  --text-base:  #ededed;
+  --text-sub:   #d4d4d8;
+  --text-muted: #a1a1aa;
+  --text-faint: #6b7280;
+  --accent-glow: rgba(37, 99, 235, 0.35);
+  --input-bg:   rgba(255,255,255,0.05);
+
+  /* Restore original Tailwind blue shades for dark backgrounds */
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg-base);
+  --color-foreground: var(--text-base);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ─── Reset ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-base);
+  color: var(--text-base);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background 0.3s ease, color 0.2s ease;
 }
+
+/* ─── Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-light); }
+::selection { background: var(--accent); color: #fff; }
+
+/* ─── Utilities ─────────────────────────────────────── */
+.glow-text {
+  text-shadow: 0 0 30px var(--accent-glow), 0 0 60px var(--accent-glow);
+}
+.gradient-text {
+  background: linear-gradient(135deg, #60a5fa 0%, #2563eb 50%, #93c5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.bg-grid {
+  background-image:
+    linear-gradient(var(--border-sub) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-sub) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* ─── Theme-aware semantic classes ──────────────────── */
+.t-bg-base   { background: var(--bg-base); }
+.t-bg-alt    { background: var(--bg-alt); }
+.t-bg-card   { background: var(--bg-card); }
+.t-bg-footer { background: var(--bg-footer); }
+.t-border    { border-color: var(--border); }
+.t-text      { color: var(--text-base); }
+.t-text-sub  { color: var(--text-sub); }
+.t-text-muted { color: var(--text-muted); }
+.t-text-faint { color: var(--text-faint); }
+
+/* Card – light gets shadow, dark gets none */
+.t-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.dark .t-card { box-shadow: none; }
+:not(.dark) .t-card { box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04); }
+
+/* Input */
+.t-input {
+  background: var(--input-bg);
+  border-color: var(--border);
+  color: var(--text-base);
+}
+.t-input::placeholder { color: var(--text-faint); }
+.t-input:focus {
+  outline: none;
+  border-color: rgba(37,99,235,0.5);
+  background: rgba(37,99,235,0.04);
+}
+
+/* Navbar scroll bg */
+.navbar-scrolled {
+  background: color-mix(in srgb, var(--bg-base) 85%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Smooth theme transition on all elements */
+*, *::before, *::after {
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 0.25s;
+  transition-timing-function: ease;
+}
+/* But NOT transition on transforms/opacity (breaks animations) */
+[data-motion], .framer-motion { transition: none !important; }
+
+/* Section scroll offset */
+section { scroll-margin-top: 80px; }
