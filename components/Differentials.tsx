@@ -22,7 +22,7 @@ const differentials = [
     icon: Globe,
     title: "Inglês Avançado",
     desc: "Comunicação técnica fluente — leitura de documentação, colaboração com equipes e participação em ambientes internacionais.",
-    highlight: "Avançado",
+    highlight: "Inglês",
   },
   {
     icon: Zap,
