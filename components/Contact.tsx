@@ -33,17 +33,19 @@ export default function Contact() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
-  const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // mailto fallback
-    const subject = encodeURIComponent(`Contato via portfólio — ${formState.name}`);
-    const body = encodeURIComponent(
-      `Nome: ${formState.name}\nEmail: ${formState.email}\n\n${formState.message}`
+    setSending(true);
+
+    const text = encodeURIComponent(
+      `Olá Matheus! Vim pelo seu portfólio.\n\nNome: ${formState.name}\nEmail: ${formState.email}\n\nMensagem:\n${formState.message}`
     );
-    window.location.href = `mailto:matheusbordinhao11@gmail.com?subject=${subject}&body=${body}`;
-    setSent(true);
+    const whatsappUrl = `https://wa.me/5551992600275?text=${text}`;
+
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    setSending(false);
   };
 
   return (
@@ -175,7 +177,7 @@ export default function Contact() {
                 className="group w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_25px_rgba(37,99,235,0.5)] flex items-center justify-center gap-2"
               >
                 <Send className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300" />
-                {sent ? "Redirecionando para email..." : "Enviar Mensagem"}
+                {sending ? "Abrindo WhatsApp..." : "Enviar via WhatsApp"}
               </button>
             </form>
           </motion.div>

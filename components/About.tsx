@@ -67,24 +67,20 @@ export default function About() {
               <strong className="font-bold" style={{ color: 'var(--text-base)' }}>IFSUL</strong> (Técnico em
               Desenvolvimento de Sistemas) e atualmente cursando{" "}
               <strong className="font-bold" style={{ color: 'var(--text-base)' }}>Ciência da Computação</strong> na
-              UNISINOS.
+              <strong className="font-bold" style={{ color: 'var(--text-base)' }}> UNISINOS</strong>.
             </p>
             <p>
               Atuo como <strong className="font-bold" style={{ color: 'var(--text-base)' }}>Estagiário de TI</strong> na{" "}
               <strong className="font-bold" style={{ color: 'var(--text-base)' }}>D9ti</strong>, onde participo do
-              desenvolvimento, manutenção e melhoria de sistemas internos —
+              desenvolvimento, manutenção e melhoria de sistemas internos,
               traduzindo requisitos de negócio em soluções técnicas eficientes.
             </p>
             <p>
               Tenho experiência prática com{" "}
-              <strong className="text-blue-400">React, TypeScript, C#/.NET, PHP, Java e SQL</strong>,
+              <strong className="text-blue-400">React, TypeScript, JavaScript, C#/.NET, PHP, Python, Java e SQL</strong>,
               além de integração com APIs de inteligência artificial. Sou
               apaixonado por criar interfaces acessíveis e back-ends robustos que
               entregam valor real ao usuário final.
-            </p>
-            <p>
-              Busco oportunidades onde possa crescer, contribuir com equipes
-              ágeis e aplicar tecnologia para resolver problemas que importam.
             </p>
 
           </motion.div>

@@ -66,7 +66,7 @@ export default function Differentials() {
           </h2>
           <div className="mt-3 w-12 h-0.5 bg-blue-500 mx-auto rounded-full" />
           <p className="mt-4 max-w-xl mx-auto" style={{ color: 'var(--text-muted)' }}>
-            O que me distingue como desenvolvedor — competências técnicas e
+            O que me distingue como desenvolvedor, competências técnicas e
             comportamentais que entregam valor além do código.
           </p>
         </motion.div>

@@ -88,9 +88,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+        <div className="pt-6 border-t flex flex-col sm:flex-row items-center justify-center gap-3 text-center" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
           <p className="text-sm" style={{ color: 'rgba(255,255,255,0.3)' }}>
-            © {new Date().getFullYear()} Matheus Bordinhão de Oliveira. Todos os direitos reservados.
+           © {new Date().getFullYear()} Matheus Bordinhão de Oliveira. Todos os direitos reservados.
           </p>
         </div>
       </div>
