@@ -21,6 +21,13 @@ export default function Navbar() {
   const [active, setActive] = useState("#home");
 
   useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -56,14 +63,16 @@ export default function Navbar() {
         )}
         style={scrolled ? { borderColor: "var(--border)" } : {}}
       >
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-2 group">
+          <a href="#home" className="flex items-center gap-2 group min-w-0" onClick={() => setMenuOpen(false)}>
             <div className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center group-hover:bg-blue-600/30 transition-all duration-300">
               <Code2 className="w-4 h-4 text-blue-400" />
             </div>
-            <span className="font-semibold tracking-tight t-text">
-              matheusbordinhão<span className="text-blue-400">.dev</span>
+            <span className="font-semibold tracking-tight t-text whitespace-nowrap text-[0.95rem] sm:text-base">
+              <span className="hidden min-[420px]:inline">matheusbordinhão</span>
+              <span className="inline min-[420px]:hidden">matheus</span>
+              <span className="text-blue-400">.dev</span>
             </span>
           </a>
 
@@ -106,7 +115,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile: theme toggle + hamburger */}
-          <div className="flex md:hidden items-center gap-2">
+          <div className="flex md:hidden items-center gap-2 shrink-0">
             <ThemeToggle />
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -132,7 +141,7 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed inset-0 z-40 md:hidden flex flex-col pt-20 px-6"
+            className="fixed inset-0 z-40 md:hidden flex flex-col pt-16 px-4 pb-6 overflow-y-auto"
             style={{
               background: "color-mix(in srgb, var(--bg-base) 96%, transparent)",
               backdropFilter: "blur(20px)",
@@ -146,7 +155,7 @@ export default function Navbar() {
                   href={href}
                   onClick={() => setMenuOpen(false)}
                   className={cn(
-                    "px-4 py-3 text-lg font-medium rounded-lg transition-all duration-200",
+                    "px-4 py-3 text-base font-medium rounded-lg transition-all duration-200",
                     active === href
                       ? "bg-blue-600/15 text-blue-500 border border-blue-500/30"
                       : "border border-transparent"

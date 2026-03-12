@@ -68,8 +68,8 @@ const cardColors: Record<string, string> = {
 const headerColors: Record<string, string> = {
   violet: "text-violet-400",
   blue: "text-blue-400",
-  emerald: "text-emerald-400",
-  orange: "text-orange-400",
+  emerald: "text-[#06d4d4]",
+  orange: "text-emerald-400",
 };
 
 export default function Stack() {

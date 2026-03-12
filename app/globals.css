@@ -142,4 +142,8 @@ body {
 [data-motion], .framer-motion { transition: none !important; }
 
 /* Section scroll offset */
-section { scroll-margin-top: 80px; }
+section { scroll-margin-top: 72px; }
+
+@media (min-width: 640px) {
+  section { scroll-margin-top: 80px; }
+}

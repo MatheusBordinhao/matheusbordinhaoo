@@ -59,7 +59,10 @@ export default function Experience() {
                 className="relative pl-16"
               >
                 {/* Timeline dot */}
-                <div className="absolute left-4 top-5 w-4 h-4 -translate-x-1/2 rounded-full border-2 border-blue-500 bg-[#080808] flex items-center justify-center">
+                <div
+                  className="absolute left-4 top-5 w-4 h-4 -translate-x-1/2 rounded-full border-2 border-blue-500 flex items-center justify-center"
+                  style={{ background: "var(--bg-card)" }}
+                >
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
                 </div>
 
@@ -71,7 +74,7 @@ export default function Experience() {
                         <Briefcase className="w-4 h-4 text-blue-400" />
                         <h3 className="text-lg font-bold" style={{ color: 'var(--text-base)' }}>{exp.role}</h3>
                         {exp.current && (
-                          <span className="px-2 py-0.5 text-xs font-semibold bg-emerald-600/15 text-emerald-400 border border-emerald-500/20 rounded-full">
+                          <span className="px-2 py-0.5 text-xs font-semibold bg-blue-600/15 text-blue-400 border border-blue-500/20 rounded-full">
                             Atual
                           </span>
                         )}

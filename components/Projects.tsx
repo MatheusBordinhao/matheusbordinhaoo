@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { ExternalLink, Github, Tag } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const projects = [
   {

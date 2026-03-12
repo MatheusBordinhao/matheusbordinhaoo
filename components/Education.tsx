@@ -3,7 +3,16 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { GraduationCap, Award, CalendarDays } from "lucide-react";
+import { GraduationCap, Award, CalendarDays, Download } from "lucide-react";
+
+type Certification = {
+  name: string;
+  issuer: string;
+  desc: string;
+  icon: string;
+  certificatePdfUrl?: string;
+  certificateFileName?: string;
+};
 
 const education = [
   {
@@ -12,7 +21,7 @@ const education = [
     period: "Fev/2026 — Dez/2029",
     location: "São Leopoldo, RS",
     status: "Em andamento",
-    statusColor: "emerald",
+    statusColor: "blue",
     highlights: [
       "Foco em desenvolvimento de software e resolução de problemas complexos.",
       "Contato com pesquisa acadêmica e projetos práticos do mercado.",
@@ -21,11 +30,11 @@ const education = [
   },
   {
     institution: "IFSUL — Campus Sapucaia do Sul",
-    degree: "Técnico em Desenvolvimento de Sistemas (Ensino Médio Integrado)",
+    degree: "Técnico em Desenvolvimento de Sistemas",
     period: "Jun/2022 — Dez/2025",
     location: "Sapucaia do Sul, RS",
     status: "Concluído",
-    statusColor: "violet",
+    statusColor: "emerald",
     highlights: [
       "Desenvolvimento de aplicações web com Java, SQL, PHP, JavaScript, CSS e HTML.",
       "Construção do plugin AGUIA como Trabalho de Conclusão de Curso (TCC).",
@@ -34,12 +43,14 @@ const education = [
   },
 ];
 
-const certifications = [
+const certifications: Certification[] = [
   {
     name: "Programa Geração Caldeira",
     issuer: "Instituto Caldeira & Alura",
     desc: "Formação intensiva em tecnologia: JavaScript, HTML/CSS, Java, Python, Lógica de Programação, Data Science, IA Generativa, Git/GitHub e competências profissionais.",
     icon: "🏭",
+    certificatePdfUrl: "/CertificadoAluraCompleto.pdf",
+    certificateFileName: "certificado-geracao-caldeira",
   },
   {
     name: "Curso de Inglês — UPTIME",
@@ -51,7 +62,7 @@ const certifications = [
 
 const colorMap: Record<string, string> = {
   emerald: "bg-emerald-600/15 text-emerald-400 border-emerald-500/20",
-  violet: "bg-blue-600/15 text-blue-300 border-blue-500/20",
+  blue: "bg-blue-600/15 text-blue-400 border-blue-500/20",
 };
 
 export default function Education() {
@@ -139,8 +150,18 @@ export default function Education() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
-                className="p-5 rounded-xl t-card hover:border-blue-500/30 transition-all duration-300"
+                className="relative p-5 rounded-xl t-card hover:border-blue-500/30 transition-all duration-300"
               >
+                {cert.certificatePdfUrl && (
+                  <a
+                    href={cert.certificatePdfUrl}
+                    download={`${cert.certificateFileName || cert.name}.pdf`}
+                    className="absolute top-3 right-3 inline-flex items-center justify-center w-8 h-8 rounded-md border border-blue-500/25 bg-blue-600/10 text-blue-400 hover:bg-blue-600/20 transition-colors"
+                    aria-label={`Baixar certificado de ${cert.name}`}
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                  </a>
+                )}
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xl">{cert.icon}</span>
                   <div>

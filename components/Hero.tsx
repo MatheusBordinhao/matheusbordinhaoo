@@ -59,24 +59,24 @@ export default function Hero() {
    return (
     <section
       id="home"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-6"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 sm:px-6 pt-24 sm:pt-20 pb-10"
     >
       {/* Subtle centered glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/5 rounded-full blur-[140px]" />
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto text-center">
+      <div className="relative z-10 max-w-4xl mx-auto text-center w-full">
         {/* Badge */}
         <motion.div
           custom={0}
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="inline-flex items-center gap-2 px-3 py-1.5 mb-8 rounded-full bg-blue-600/10 border border-blue-500/20 text-blue-300 text-sm font-medium"
+          className="inline-flex items-center justify-center gap-2 px-3 py-1.5 mb-8 rounded-full bg-blue-600/10 border border-blue-500/20 text-blue-300 text-xs sm:text-sm font-medium max-w-[92vw] sm:max-w-none leading-snug"
         >
-          <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-          Desenvolvendo tecnologia com propósito e performance
+          <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shrink-0" />
+          <span>Desenvolvendo tecnologia com propósito e performance</span>
         </motion.div>
 
         {/* Main headline */}
@@ -85,7 +85,7 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-4 leading-tight"
+          className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-4 leading-tight"
           style={{ color: 'var(--text-base)' }}
         > 
           Olá, eu sou{" "}
@@ -98,9 +98,9 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="h-12 flex items-center justify-center mb-6"
+          className="h-10 sm:h-12 flex items-center justify-center mb-6"
         >
-          <p className="text-2xl sm:text-3xl font-semibold" style={{ color: 'var(--text-sub)' }}>
+          <p className="text-[1.65rem] sm:text-3xl font-semibold" style={{ color: 'var(--text-sub)' }}>
             <span>{typedText}</span>
             <span className="inline-block w-0.5 h-7 bg-blue-400 ml-1 animate-pulse align-middle" />
           </p>
@@ -112,7 +112,7 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-base sm:text-xl max-w-2xl mx-auto mb-9 sm:mb-10 leading-relaxed"
           style={{ color: 'var(--text-muted)' }}
         >
           Construo aplicações web modernas, escaláveis e centradas no usuário,
@@ -125,17 +125,17 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-11 sm:mb-12 w-full max-w-xl mx-auto"
         >
           <a
             href="#projects"
-            className="group relative px-8 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(37,99,235,0.6)] hover:-translate-y-0.5"
+            className="group relative w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(37,99,235,0.6)] hover:-translate-y-0.5"
           >
             Ver Projetos
           </a>
           <a
             href="#contact"
-            className="px-8 py-3.5 dark:bg-white/5 dark:hover:bg-white/10 dark:border-white/10 bg-gray-100 hover:bg-gray-200 border border-gray-200 hover:border-blue-500/40 font-semibold rounded-xl transition-all duration-300 hover:-translate-y-0.5"
+            className="w-full sm:w-auto px-8 py-3.5 dark:bg-white/5 dark:hover:bg-white/10 dark:border-white/10 bg-gray-100 hover:bg-gray-200 border border-gray-200 hover:border-blue-500/40 font-semibold rounded-xl transition-all duration-300 hover:-translate-y-0.5"
             style={{ color: 'var(--text-base)' }}
           >
             Entrar em Contato
@@ -148,9 +148,9 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="flex items-center justify-center gap-4"
+          className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap"
         >
-          <span className="text-sm flex items-center gap-1.5" style={{ color: 'var(--text-faint)' }}>
+          <span className="text-sm flex items-center gap-1.5 whitespace-nowrap" style={{ color: 'var(--text-faint)' }}>
             <MapPin className="w-3.5 h-3.5" />RS — Brasil
           </span>
           <div className="w-px h-4 bg-gray-300 dark:bg-gray-700" />
@@ -192,7 +192,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 0.6 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" style={{ color: 'var(--text-faint)' }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2" style={{ color: 'var(--text-faint)' }}
       >
         <span className="text-xs tracking-widest uppercase">Scroll</span>
         <motion.div
