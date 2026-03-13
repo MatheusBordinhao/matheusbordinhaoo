@@ -78,7 +78,7 @@ export default function Education() {
         : "Formação intensiva em tecnologia: JavaScript, HTML/CSS, Java, Python, Lógica de Programação, Data Science, IA Generativa, Git/GitHub e competências profissionais.",
       icon: "🏭",
       certificatePdfUrl: "/CertificadoAluraCompleto.pdf",
-      certificateFileName: "certificado-geracao-caldeira",
+      certificateFileName: "CertificadoAlura_MatheusBordinhão",
     },
     {
       name: isEnglish ? "English Course — UPTIME" : "Curso de Inglês — UPTIME",
