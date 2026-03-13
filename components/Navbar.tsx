@@ -1,24 +1,59 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useMemo } from "react";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { Menu, X, Code2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ThemeToggle from "./ThemeToggle";
-
-const links = [
-  { label: "Home", href: "#home" },
-  { label: "Sobre", href: "#about" },
-  { label: "Stack", href: "#stack" },
-  { label: "Projetos", href: "#projects" },
-  { label: "Experiência", href: "#experience" },
-  { label: "Contato", href: "#contact" },
-];
+import LanguageToggle from "./LanguageToggle";
+import { useLanguage } from "./LanguageProvider";
 
 export default function Navbar() {
+  const { language } = useLanguage();
+  const isEnglish = language === "en";
+
+  const links = useMemo(
+    () => [
+      { label: "Home", href: "#home" },
+      { label: isEnglish ? "About" : "Sobre", href: "#about" },
+      { label: "Stack", href: "#stack" },
+      { label: isEnglish ? "Projects" : "Projetos", href: "#projects" },
+      { label: isEnglish ? "Experience" : "Experiência", href: "#experience" },
+      { label: isEnglish ? "Contact" : "Contato", href: "#contact" },
+    ],
+    [isEnglish]
+  );
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState("#home");
+  const { scrollYProgress } = useScroll();
+  const progressScaleX = useSpring(scrollYProgress, {
+    stiffness: 110,
+    damping: 24,
+    mass: 0.25,
+  });
+
+  const mobileMenuVariants = {
+    hidden: { opacity: 0, x: "100%" },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring" as const,
+        stiffness: 280,
+        damping: 28,
+        when: "beforeChildren" as const,
+        staggerChildren: 0.06,
+      },
+    },
+    exit: { opacity: 0, x: "100%", transition: { duration: 0.2 } },
+  };
+
+  const mobileItemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.25 } },
+  };
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -47,7 +82,7 @@ export default function Navbar() {
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, []);
+  }, [links]);
 
   return (
     <>
@@ -66,7 +101,7 @@ export default function Navbar() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2">
           {/* Logo */}
           <a href="#home" className="flex items-center gap-2 group min-w-0" onClick={() => setMenuOpen(false)}>
-            <div className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center group-hover:bg-blue-600/30 transition-all duration-300">
+            <div className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center group-hover:bg-blue-600/30 transition-all duration-150">
               <Code2 className="w-4 h-4 text-blue-400" />
             </div>
             <span className="font-semibold tracking-tight t-text whitespace-nowrap text-[0.95rem] sm:text-base">
@@ -83,7 +118,7 @@ export default function Navbar() {
                 key={href}
                 href={href}
                 className={cn(
-                  "relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-300",
+                  "relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-150",
                   active === href ? "t-text" : "t-text-muted hover:t-text"
                 )}
                 style={{
@@ -105,18 +140,20 @@ export default function Navbar() {
           {/* CTA + Theme toggle */}
           <div className="hidden md:flex items-center gap-2">
             <ThemeToggle />
+            <LanguageToggle />
             <a
               href="/cv.pdf"
               download="Currículo-MatheusBordinhão"
-              className="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+              className="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-all duration-150 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]"
             >
-              Download CV
+              {isEnglish ? "Download Resume" : "Download CV"}
             </a>
           </div>
 
           {/* Mobile: theme toggle + hamburger */}
           <div className="flex md:hidden items-center gap-2 shrink-0">
             <ThemeToggle />
+            <LanguageToggle />
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="w-9 h-9 flex items-center justify-center rounded-lg border transition-all duration-200"
@@ -125,22 +162,27 @@ export default function Navbar() {
                 borderColor: "var(--border)",
                 color: "var(--text-muted)",
               }}
-              aria-label="Toggle menu"
+              aria-label={isEnglish ? "Toggle menu" : "Alternar menu"}
             >
               {menuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
           </div>
         </div>
+
+        <motion.div
+          className="h-[2px] origin-left bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500"
+          style={{ scaleX: progressScaleX }}
+        />
       </motion.header>
 
       {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            variants={mobileMenuVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             className="fixed inset-0 z-40 md:hidden flex flex-col pt-16 px-4 pb-6 overflow-y-auto"
             style={{
               background: "color-mix(in srgb, var(--bg-base) 96%, transparent)",
@@ -150,10 +192,11 @@ export default function Navbar() {
           >
             <nav className="flex flex-col gap-2">
               {links.map(({ label, href }) => (
-                <a
+                <motion.a
                   key={href}
                   href={href}
                   onClick={() => setMenuOpen(false)}
+                  variants={mobileItemVariants}
                   className={cn(
                     "px-4 py-3 text-base font-medium rounded-lg transition-all duration-200",
                     active === href
@@ -167,15 +210,16 @@ export default function Navbar() {
                   }
                 >
                   {label}
-                </a>
+                </motion.a>
               ))}
-              <a
+              <motion.a
                 href="/cv.pdf"
                 download="Currículo-MatheusBordinhão"
+                variants={mobileItemVariants}
                 className="mt-4 px-4 py-3 text-center text-white bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition-all duration-200"
               >
-                Download CV
-              </a>
+                {isEnglish ? "Download Resume" : "Download CV"}
+              </motion.a>
             </nav>
           </motion.div>
         )}

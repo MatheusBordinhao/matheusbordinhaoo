@@ -8,22 +8,25 @@ import Education from "@/components/Education";
 import Differentials from "@/components/Differentials";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import PageShell from "@/components/PageShell";
 
 export default function Home() {
   return (
-    <div className="min-h-screen" style={{ background: 'var(--bg-base)', color: 'var(--text-base)' }}>
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Stack />
-        <Projects />
-        <Experience />
-        <Education />
-        <Differentials />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <PageShell>
+      <div className="min-h-screen" style={{ background: 'var(--bg-base)', color: 'var(--text-base)' }}>
+        <Navbar />
+        <main>
+          <Hero />
+          <About />
+          <Stack />
+          <Projects />
+          <Experience />
+          <Education />
+          <Differentials />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+    </PageShell>
   );
 }

@@ -3,27 +3,39 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { useReducedMotion } from "framer-motion";
 import { Briefcase, CalendarDays } from "lucide-react";
-
-const experiences = [
-  {
-    company: "D9ti",
-    role: "Estagiário em TI",
-    period: "Dez/2025 — Atual",
-    location: "São Leopoldo, RS",
-    current: true,
-    responsibilities: [
-      "Desenvolvimento, manutenção e melhoria de sistemas internos de software.",
-      "Participação ativa no ciclo completo de desenvolvimento: análise, implementação e testes.",
-      "Apoio em suporte técnico, manutenção de infraestrutura de software e organização de dados.",
-      "Colaboração na melhoria de processos internos e comunicação entre equipes técnicas.",
-    ],
-  },
-];
+import { useLanguage } from "./LanguageProvider";
 
 export default function Experience() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const shouldReduceMotion = useReducedMotion();
+  const { language } = useLanguage();
+  const isEnglish = language === "en";
+
+  const experiences = [
+    {
+      company: "D9ti",
+      role: isEnglish ? "IT Intern" : "Estagiário em TI",
+      period: isEnglish ? "Dec/2025 - Present" : "Dez/2025 — Atual",
+      location: "São Leopoldo, RS",
+      current: true,
+      responsibilities: isEnglish
+        ? [
+            "Development, maintenance, and improvement of internal software systems.",
+            "Active participation in the full development lifecycle: analysis, implementation, and testing.",
+            "Support in technical assistance, software infrastructure maintenance, and data organization.",
+            "Collaboration to improve internal processes and communication between technical teams.",
+          ]
+        : [
+            "Desenvolvimento, manutenção e melhoria de sistemas internos de software.",
+            "Participação ativa no ciclo completo de desenvolvimento: análise, implementação e testes.",
+            "Apoio em suporte técnico, manutenção de infraestrutura de software e organização de dados.",
+            "Colaboração na melhoria de processos internos e comunicação entre equipes técnicas.",
+          ],
+    },
+  ];
 
   return (
     <section id="experience" ref={ref} className="py-28 px-6" style={{ background: 'var(--bg-alt)' }}>
@@ -36,10 +48,10 @@ export default function Experience() {
           className="text-center mb-16"
         >
           <span className="text-blue-400 text-sm font-medium tracking-widest uppercase">
-            Carreira
+            {isEnglish ? "Career" : "Carreira"}
           </span>
           <h2 className="text-4xl sm:text-5xl font-bold mt-2" style={{ color: 'var(--text-base)' }}>
-            Experiência Profissional
+            {isEnglish ? "Professional Experience" : "Experiência Profissional"}
           </h2>
           <div className="mt-3 w-12 h-0.5 bg-blue-500 mx-auto rounded-full" />
         </motion.div>
@@ -67,7 +79,14 @@ export default function Experience() {
                 </div>
 
                 {/* Card */}
-                <div className="group p-6 sm:p-8 rounded-2xl t-card hover:border-blue-500/30 transition-all duration-300">
+                <motion.div
+                  className="group p-6 sm:p-8 rounded-2xl t-card hover:border-blue-500/30 transition-all duration-150"
+                  whileHover={
+                    shouldReduceMotion
+                      ? undefined
+                      : { y: -6, transition: { duration: 0.12, ease: "easeOut" } }
+                  }
+                >
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-5">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
@@ -75,7 +94,7 @@ export default function Experience() {
                         <h3 className="text-lg font-bold" style={{ color: 'var(--text-base)' }}>{exp.role}</h3>
                         {exp.current && (
                           <span className="px-2 py-0.5 text-xs font-semibold bg-blue-600/15 text-blue-400 border border-blue-500/20 rounded-full">
-                            Atual
+                            {isEnglish ? "Current" : "Atual"}
                           </span>
                         )}
                       </div>
@@ -90,13 +109,22 @@ export default function Experience() {
 
                   <ul className="space-y-2.5">
                     {exp.responsibilities.map((item, ri) => (
-                      <li key={ri} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'var(--text-sub)' }}>
+                      <motion.li
+                        key={ri}
+                        className="flex items-start gap-3 text-sm leading-relaxed"
+                        style={{ color: 'var(--text-sub)' }}
+                        whileHover={
+                          shouldReduceMotion
+                            ? undefined
+                            : { x: 3, transition: { duration: 0.12, ease: "easeOut" } }
+                        }
+                      >
                         <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
                         {item}
-                      </li>
+                      </motion.li>
                     ))}
                   </ul>
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>

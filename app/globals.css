@@ -135,7 +135,7 @@ body {
 /* Smooth theme transition on all elements */
 *, *::before, *::after {
   transition-property: background-color, border-color, box-shadow;
-  transition-duration: 0.25s;
+  transition-duration: 0.12s;
   transition-timing-function: ease;
 }
 /* But NOT transition on transforms/opacity (breaks animations) */

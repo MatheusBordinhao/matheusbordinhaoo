@@ -3,7 +3,9 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { useReducedMotion } from "framer-motion";
 import { GraduationCap, Award, CalendarDays, Download } from "lucide-react";
+import { useLanguage } from "./LanguageProvider";
 
 type Certification = {
   name: string;
@@ -14,52 +16,6 @@ type Certification = {
   certificateFileName?: string;
 };
 
-const education = [
-  {
-    institution: "UNISINOS",
-    degree: "Bacharelado em Ciência da Computação",
-    period: "Fev/2026 — Dez/2029",
-    location: "São Leopoldo, RS",
-    status: "Em andamento",
-    statusColor: "blue",
-    highlights: [
-      "Foco em desenvolvimento de software e resolução de problemas complexos.",
-      "Contato com pesquisa acadêmica e projetos práticos do mercado.",
-      "Aplicação de tecnologias em situações reais e multidisciplinares.",
-    ],
-  },
-  {
-    institution: "IFSUL — Campus Sapucaia do Sul",
-    degree: "Técnico em Desenvolvimento de Sistemas",
-    period: "Jun/2022 — Dez/2025",
-    location: "Sapucaia do Sul, RS",
-    status: "Concluído",
-    statusColor: "emerald",
-    highlights: [
-      "Desenvolvimento de aplicações web com Java, SQL, PHP, JavaScript, CSS e HTML.",
-      "Construção do plugin AGUIA como Trabalho de Conclusão de Curso (TCC).",
-      "Formação técnica sólida integrada ao ensino médio.",
-    ],
-  },
-];
-
-const certifications: Certification[] = [
-  {
-    name: "Programa Geração Caldeira",
-    issuer: "Instituto Caldeira & Alura",
-    desc: "Formação intensiva em tecnologia: JavaScript, HTML/CSS, Java, Python, Lógica de Programação, Data Science, IA Generativa, Git/GitHub e competências profissionais.",
-    icon: "🏭",
-    certificatePdfUrl: "/CertificadoAluraCompleto.pdf",
-    certificateFileName: "certificado-geracao-caldeira",
-  },
-  {
-    name: "Curso de Inglês — UPTIME",
-    issuer: "UPTIME",
-    desc: "Aprimoramento da comunicação oral e escrita em inglês para contextos técnicos e profissionais.",
-    icon: "🌐",
-  },
-];
-
 const colorMap: Record<string, string> = {
   emerald: "bg-emerald-600/15 text-emerald-400 border-emerald-500/20",
   blue: "bg-blue-600/15 text-blue-400 border-blue-500/20",
@@ -68,6 +24,71 @@ const colorMap: Record<string, string> = {
 export default function Education() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const shouldReduceMotion = useReducedMotion();
+  const { language } = useLanguage();
+  const isEnglish = language === "en";
+
+  const education = [
+    {
+      institution: "UNISINOS",
+      degree: isEnglish ? "BSc in Computer Science" : "Bacharelado em Ciência da Computação",
+      period: isEnglish ? "Feb/2026 - Dec/2029" : "Fev/2026 — Dez/2029",
+      location: "São Leopoldo, RS",
+      status: isEnglish ? "In progress" : "Em andamento",
+      statusColor: "blue",
+      highlights: isEnglish
+        ? [
+            "Focused on software development and solving complex problems.",
+            "Exposure to academic research and market-oriented practical projects.",
+            "Applying technologies in real and multidisciplinary scenarios.",
+          ]
+        : [
+            "Foco em desenvolvimento de software e resolução de problemas complexos.",
+            "Contato com pesquisa acadêmica e projetos práticos do mercado.",
+            "Aplicação de tecnologias em situações reais e multidisciplinares.",
+          ],
+    },
+    {
+      institution: "IFSUL — Campus Sapucaia do Sul",
+      degree: isEnglish ? "Systems Development Technician" : "Técnico em Desenvolvimento de Sistemas",
+      period: isEnglish ? "Jun/2022 - Dec/2025" : "Jun/2022 — Dez/2025",
+      location: "Sapucaia do Sul, RS",
+      status: isEnglish ? "Completed" : "Concluído",
+      statusColor: "emerald",
+      highlights: isEnglish
+        ? [
+            "Web application development with Java, SQL, PHP, JavaScript, CSS, and HTML.",
+            "Built the AGUIA plugin as the final capstone project.",
+            "Strong technical education integrated with high school curriculum.",
+          ]
+        : [
+            "Desenvolvimento de aplicações web com Java, SQL, PHP, JavaScript, CSS e HTML.",
+            "Construção do plugin AGUIA como Trabalho de Conclusão de Curso (TCC).",
+            "Formação técnica sólida integrada ao ensino médio.",
+          ],
+    },
+  ];
+
+  const certifications: Certification[] = [
+    {
+      name: isEnglish ? "Geração Caldeira Program" : "Programa Geração Caldeira",
+      issuer: "Instituto Caldeira & Alura",
+      desc: isEnglish
+        ? "Intensive technology training covering JavaScript, HTML/CSS, Java, Python, Programming Logic, Data Science, Generative AI, Git/GitHub, and professional skills."
+        : "Formação intensiva em tecnologia: JavaScript, HTML/CSS, Java, Python, Lógica de Programação, Data Science, IA Generativa, Git/GitHub e competências profissionais.",
+      icon: "🏭",
+      certificatePdfUrl: "/CertificadoAluraCompleto.pdf",
+      certificateFileName: "certificado-geracao-caldeira",
+    },
+    {
+      name: isEnglish ? "English Course — UPTIME" : "Curso de Inglês — UPTIME",
+      issuer: "UPTIME",
+      desc: isEnglish
+        ? "Improvement of spoken and written English for technical and professional contexts."
+        : "Aprimoramento da comunicação oral e escrita em inglês para contextos técnicos e profissionais.",
+      icon: "🌐",
+    },
+  ];
 
   return (
     <section id="education" ref={ref} className="py-28 px-6">
@@ -80,10 +101,10 @@ export default function Education() {
           className="text-center mb-16"
         >
           <span className="text-blue-400 text-sm font-medium tracking-widest uppercase">
-            Formação
+            {isEnglish ? "Education" : "Formação"}
           </span>
           <h2 className="text-4xl sm:text-5xl font-bold mt-2" style={{ color: 'var(--text-base)' }}>
-            Educação & Certificações
+            {isEnglish ? "Education & Certifications" : "Educação & Certificações"}
           </h2>
           <div className="mt-3 w-12 h-0.5 bg-blue-500 mx-auto rounded-full" />
         </motion.div>
@@ -95,8 +116,17 @@ export default function Education() {
               key={edu.institution}
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.12 }}
-              className="group p-6 sm:p-8 rounded-2xl t-card hover:border-blue-500/30 transition-all duration-300"
+              transition={{
+                duration: 0.6,
+                delay: i * 0.12,
+                y: { duration: 0.12, ease: "easeOut" },
+              }}
+              className="group p-6 sm:p-8 rounded-2xl t-card hover:border-blue-500/30 transition-colors duration-150"
+              whileHover={
+                shouldReduceMotion
+                  ? undefined
+                  : { y: -6 }
+              }
             >
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-5">
                 <div className="flex items-start gap-3">
@@ -123,10 +153,19 @@ export default function Education() {
               </div>
               <ul className="space-y-2">
                 {edu.highlights.map((item, hi) => (
-                  <li key={hi} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                  <motion.li
+                    key={hi}
+                    className="flex items-start gap-3 text-sm leading-relaxed"
+                    style={{ color: 'var(--text-muted)' }}
+                    whileHover={
+                      shouldReduceMotion
+                        ? undefined
+                        : { x: 3, transition: { duration: 0.12, ease: "easeOut" } }
+                    }
+                  >
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-500/60 shrink-0" />
                     {item}
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
             </motion.div>
@@ -141,7 +180,7 @@ export default function Education() {
         >
           <h3 className="text-xl font-bold mb-5 flex items-center gap-2" style={{ color: 'var(--text-base)' }}>
             <Award className="w-5 h-5 text-blue-400" />
-            Cursos & Certificações
+            {isEnglish ? "Courses & Certifications" : "Cursos & Certificações"}
           </h3>
           <div className="grid sm:grid-cols-2 gap-4">
             {certifications.map((cert, i) => (
@@ -149,18 +188,33 @@ export default function Education() {
                 key={cert.name}
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
-                className="relative p-5 rounded-xl t-card hover:border-blue-500/30 transition-all duration-300"
+                transition={{
+                  duration: 0.5,
+                  delay: 0.4 + i * 0.1,
+                  y: { duration: 0.12, ease: "easeOut" },
+                }}
+                className="relative p-5 rounded-xl t-card hover:border-blue-500/30 transition-colors duration-150"
+                whileHover={
+                  shouldReduceMotion
+                    ? undefined
+                    : { y: -6 }
+                }
               >
                 {cert.certificatePdfUrl && (
-                  <a
+                  <motion.a
                     href={cert.certificatePdfUrl}
                     download={`${cert.certificateFileName || cert.name}.pdf`}
                     className="absolute top-3 right-3 inline-flex items-center justify-center w-8 h-8 rounded-md border border-blue-500/25 bg-blue-600/10 text-blue-400 hover:bg-blue-600/20 transition-colors"
-                    aria-label={`Baixar certificado de ${cert.name}`}
+                    aria-label={isEnglish ? `Download ${cert.name} certificate` : `Baixar certificado de ${cert.name}`}
+                    whileHover={
+                      shouldReduceMotion
+                        ? undefined
+                        : { scale: 1.08, transition: { duration: 0.12, ease: "easeOut" } }
+                    }
+                    whileTap={shouldReduceMotion ? undefined : { scale: 0.95 }}
                   >
                     <Download className="w-3.5 h-3.5" />
-                  </a>
+                  </motion.a>
                 )}
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xl">{cert.icon}</span>

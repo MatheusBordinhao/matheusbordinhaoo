@@ -1,25 +1,39 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { motion } from "framer-motion";
 import { Sun, Moon } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
+import { useLanguage } from "./LanguageProvider";
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
+  const { language } = useLanguage();
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
   const isDark = mounted ? theme === "dark" : true;
+  const isEnglish = language === "en";
 
   return (
     <button
       onClick={toggleTheme}
-      aria-label={mounted ? (isDark ? "Ativar modo claro" : "Ativar modo escuro") : "Alternar tema"}
-      className="relative w-9 h-9 flex items-center justify-center rounded-lg border transition-all duration-300"
+      aria-label={
+        mounted
+          ? isDark
+            ? isEnglish
+              ? "Enable light mode"
+              : "Ativar modo claro"
+            : isEnglish
+              ? "Enable dark mode"
+              : "Ativar modo escuro"
+          : isEnglish
+            ? "Toggle theme"
+            : "Alternar tema"
+      }
+      className="relative w-9 h-9 flex items-center justify-center rounded-lg border transition-all duration-150"
       style={{
         background: "var(--bg-card)",
         borderColor: "var(--border)",
